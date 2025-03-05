@@ -1,16 +1,16 @@
 package com.generic.exception_library.dto;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 public class ErrorResponse {
     private int status;
     private String message;
-    private LocalDateTime timestamp;
+    private long timestamp;
 
     public ErrorResponse(int status, String message) {
         this.status = status;
         this.message = message;
-        this.timestamp = LocalDateTime.now();
+        this.timestamp = Instant.now().toEpochMilli();
     }
 
     public int getStatus() {
@@ -21,7 +21,7 @@ public class ErrorResponse {
         return message;
     }
 
-    public LocalDateTime getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 }

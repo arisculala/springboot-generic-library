@@ -112,6 +112,39 @@ How to use the exception library inside a microservice.
 1️⃣ Use Global Exception Handler
 Since we added a `@RestControllerAdvice` in the library, it works automatically when included.
 
+Make sure that your exception handler is inside a package that Spring Boot scans automatically.
+
+Check Your GlobalExceptionHandler Package. Your handler is in: `com.generic.exception_library.handlers.GlobalExceptionHandler`
+
+Ensure it's inside a package that is scanned by Spring Boot. Modify your @SpringBootApplication class:
+
+```bash
+@SpringBootApplication(scanBasePackages = {"com.trading", "com.generic.exception_library.handlers"})
+public class UserServiceApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(UserServiceApplication.class, args);
+    }
+}
+```
+
+- NOTE: If you don't want to include the package in your scan above, disable Spring Boot's Default Error Handling. Spring Boot sometimes overrides custom exception handling with its built-in error handler. To disable it, add this property in `application.yml`:
+
+```bash
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
+```
+
+For Spring Boot 3.x, use:
+
+```bash
+spring:
+  mvc:
+    problem-details:
+      enabled: true
+```
+
 2️⃣ Throw a Custom Exception in User Service
 
 ```bash
