@@ -1,60 +1,70 @@
-# springboot-exception-library
+# Spring Boot Generic Library
 
-A reusable exception handling library for Spring Boot microservices
+This document provides a detailed guide on setting up and using features provided in the generic Spring Boot Library.
 
-## Use the JAR Without Publishing (Local Installation)
+## 🚀 Features
+
+- Generic exceptions handlers
+- Generic Jackson config (e.g. date format)
+
+## 📥 Installation
+
+- Clone the repository
+
+```bash
+git clone https://github.com/arisculala/springboot-generic-library.git
+cd springboot-generic-library
+```
+
+### Use the JAR Without Publishing (Local Installation)
 
 You can manually install the JAR in your local machine.
 
-1️⃣ Build the Exception Library JAR
+1. Build the generic Library JAR
 
 ```bash
 mvn clean install
 ```
 
-This generates (e.g. version=0.0.1):
+This generates (e.g. `target/springboot-generic-library-0.0.1.jar` the `version` which you can update in `pom.xml`):
+
+2. Manually Install It in Local Maven Repository (`Note: the version value of the jar generated`)
 
 ```bash
-target/springboot-exception-library-0.0.1.jar
-```
-
-2️⃣ Manually Install It in Local Maven Repository
-
-```bash
-mvn install:install-file -Dfile=target/springboot-exception-library-0.0.1.jar \
+mvn install:install-file -Dfile=target/springboot-generic-library-0.0.1.jar \
     -DgroupId=com.generic \
-    -DartifactId=springboot-exception-library \
+    -DartifactId=springboot-generic-library \
     -Dversion=0.0.1 \
     -Dpackaging=jar
 ```
 
 This stores the JAR in your local Maven repository (`~/.m2/repository/`).
 
-3️⃣ Add the Dependency in Microservices
-In the `pom.xml` of your microservice:
+3. Add the Dependency in Microservices
+   In the `pom.xml` of your microservice:
 
 ```bash
 <dependency>
     <groupId>com.generic</groupId>
-    <artifactId>springboot-exception-library</artifactId>
+    <artifactId>springboot-generic-library</artifactId>
     <version>0.0.1</version>
 </dependency>
 ```
 
-## Publish the Exception Library to Maven Repository / Github Packages
+### Publish the Generic Library to Maven Repository / Github Packages
 
 If you want to share the JAR with multiple teams/microservices, you should publish it to a Github Packages like:
 
-1️⃣ Add Metadata in `pom.xml`
-Before publishing, update `pom.xml` to include necessary metadata.
+1. Add Metadata in `pom.xml`
+   Before publishing, update `pom.xml` to include necessary metadata.
 
 ```bash
 <groupId>com.generic</groupId>
-<artifactId>springboot-exception-library</artifactId>
+<artifactId>springboot-generic-library</artifactId>
 <version>0.0.1</version>
 <packaging>jar</packaging>
-<name>springboot-exception-library</name>
-<description>A reusable exception handling library for Spring Boot microservices</description>
+<name>springboot-generic-library</name>
+<description>A reusable generic library for Spring Boot microservices</description>
 <url>https://github.com/your-repo</url>
 
 <licenses>
@@ -73,7 +83,7 @@ Before publishing, update `pom.xml` to include necessary metadata.
 </developers>
 ```
 
-✅ Using GitHub Packages
+### Using GitHub Packages
 
 1. Create a GitHub repository for your package.
 2. Add this Maven distribution management to `pom.xml`:
@@ -105,12 +115,14 @@ Before publishing, update `pom.xml` to include necessary metadata.
 mvn clean deploy
 ```
 
-## Usage in a Microservice
+## 📝 Usage Guide
+
+### Exception Handlers
 
 How to use the exception library inside a microservice.
 
-1️⃣ Use Global Exception Handler
-Since we added a `@RestControllerAdvice` in the library, it works automatically when included.
+1. Use Global Exception Handler
+   Since we added a `@RestControllerAdvice` in the library, it works automatically when included.
 
 Make sure that your exception handler is inside a package that Spring Boot scans automatically.
 
@@ -145,7 +157,7 @@ spring:
       enabled: true
 ```
 
-2️⃣ Throw a Custom Exception in User Service
+2. Throw a Custom Exception in User Service
 
 ```bash
 import com.generic.exception_library.exceptions.ForbiddenException;
@@ -168,7 +180,7 @@ public class UserService {
 }
 ```
 
-# Example API Response When an Exception is Thrown
+#### Example API Response When an Exception is Thrown
 
 If a ForbiddenException is thrown, the response will be:
 
@@ -181,3 +193,40 @@ Response (HTTP 400 - Bad Request)
     "timestamp": "2025-03-05T14:30:00"
 }
 ```
+
+### Jackson Config
+
+A jackson configuration is available in the library.
+You can use the library for date serialization or you can update the code to add additional serialization settings.
+
+```bash
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class JacksonConfig {
+    @Bean
+    public ObjectMapper objectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        return objectMapper;
+    }
+}
+```
+
+- Configuration in `application.yml` for date
+
+```bash
+spring:
+  jackson:
+    date-format: yyyy-MM-dd'T'HH:mm:ss.SSSXXX
+    time-zone: UTC
+```
+
+## 📜 License
+
+This project is open-source and available under the MIT License.

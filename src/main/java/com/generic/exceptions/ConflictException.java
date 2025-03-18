@@ -1,4 +1,4 @@
-package com.generic.exception_library.exceptions;
+package com.generic.exceptions;
 
 public class ConflictException extends RuntimeException {
     public ConflictException(String message) {

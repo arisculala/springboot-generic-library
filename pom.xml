@@ -9,11 +9,11 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.generic</groupId>
-	<artifactId>springboot-exception-library</artifactId>
+	<artifactId>springboot-generic-library</artifactId>
 	<version>0.0.1</version>
   <packaging>jar</packaging>
-	<name>springboot-exception-library</name>
-	<description>A reusable exception handling library for Spring Boot microservices</description>
+	<name>springboot-generic-library</name>
+	<description>A reusable Spring Boot generic libraries/modules</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -46,6 +46,24 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+    <!-- Lombok (to reduce boilerplate code) -->
+    <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <scope>provided</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok-mapstruct-binding</artifactId>
+        <version>0.2.0</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+        <version>2.8.5</version>
+    </dependency>
 	</dependencies>
 
 	<build>

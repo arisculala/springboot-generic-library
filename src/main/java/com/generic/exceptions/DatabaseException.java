@@ -1,4 +1,4 @@
-package com.generic.exception_library.exceptions;
+package com.generic.exceptions;
 
 public class DatabaseException extends RuntimeException {
     public DatabaseException(String message, Throwable cause) {

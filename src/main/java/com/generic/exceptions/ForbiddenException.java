@@ -1,4 +1,4 @@
-package com.generic.exception_library.exceptions;
+package com.generic.exceptions;
 
 public class ForbiddenException extends RuntimeException {
     public ForbiddenException(String message) {
